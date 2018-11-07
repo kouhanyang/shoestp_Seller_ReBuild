@@ -132,7 +132,7 @@ export default {
     },
     getVerifyCode() {
       const self = this
-      self.verify = '/servlet/verify.img?fontcolor=F0F8FF&background=000000&charset=' + Math.random()
+      self.verify = '/servlet/verify.img?fontcolor=F0F8FF&charset=' + Math.random()
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
@@ -273,8 +273,5 @@ export default {
       right: 35px;
       bottom: 28px;
     }
-  }
-  .verifyImage{
-    background-color: #ffffff;
   }
 </style>
