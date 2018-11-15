@@ -31,7 +31,7 @@ module.exports = {
     filename: '[name].js',
     publicPath:
       process.env.NODE_ENV === 'production'
-        ? "/newseller/"+config.build.assetsPublicPath
+        ? "/newseller"+config.build.assetsPublicPath
         : config.dev.assetsPublicPath
   },
   resolve: {
