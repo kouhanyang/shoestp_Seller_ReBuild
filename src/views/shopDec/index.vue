@@ -169,6 +169,7 @@
           </el-form-item>
         </div>
         <el-form-item
+          hidden="true"
           label="公司介绍页自定义装修：">
           <el-switch
             v-model="data.aboutPageCustomDecoration"
@@ -189,7 +190,7 @@
               :key="d.shortName"/>
           </el-tabs>
         </el-form-item>
-        <div>
+        <div hidden="true">
           <el-form-item label-width="0">
             <editor id="productPagePersonalityDecoration" :value="data.aboutPageDIY[productPagePersonalityDIYName]"/>
           </el-form-item>
@@ -640,7 +641,7 @@ export default {
                 type: 'success',
                 message: '提交装修信息成功'
               })
-              window.location.reload()
+              that.$router.push('/shopDec/index')
             } else {
               console.log(data.data.msg)
               if (data.data.msg.indexOf('Email不可为空，请输入') != -1) {
