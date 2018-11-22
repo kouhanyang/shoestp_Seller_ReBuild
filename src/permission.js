@@ -23,6 +23,7 @@ router.beforeEach((to, from, next) => {
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
       if (!(store.getters.alllanguage && store.getters.alllanguage.length > 0)) {
+        store.commit('SET_COUNTRYLIST')
         store.dispatch('Languages').then(value => {
           f(to, from, next)
         })

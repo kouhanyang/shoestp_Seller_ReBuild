@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie'
 import {
-  getLanguages
+  getLanguages,
+  getCountry
 } from '@/api/systemSetting'
 
 const app = {
@@ -37,6 +38,12 @@ const app = {
       Cookies.set('language', language)
     }, SET_LANGUAGES: (state, v) => {
       state.languages = v
+    }, SET_COUNTRYLIST: (state) => {
+      getCountry().then(value => {
+        state.country = value.data.result
+      }).catch(error => {
+        console.error(error)
+      })
     }
   },
   actions: {

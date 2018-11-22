@@ -71,6 +71,14 @@ const tagsView = {
         commit('DEL_ALL_VIEWS')
         resolve([...state.visitedViews])
       })
+    }, delCurrentViews({ commit, state }, params) {
+      commit('DEL_VISITED_VIEWS', params.view)
+      const latestView = [...state.visitedViews].slice(-1)[0]
+      if (latestView) {
+        params.$router.push(latestView)
+      } else {
+        params.$router.push('/')
+      }
     }
   }
 }

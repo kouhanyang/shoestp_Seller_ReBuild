@@ -18,6 +18,8 @@ const path = require('path')
           target: 'http://localhost:8080/'
         },'/plt_PltConfig_enabledLanguage':{
           target:'http://localhost:8080/plt_PltConfig_enabledLanguage'
+        },'/home/plt_PltCountry_list':{
+          target:'http://localhost:8080/home/plt_PltCountry_list'
         }
       },
 

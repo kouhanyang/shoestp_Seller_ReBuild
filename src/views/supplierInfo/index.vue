@@ -221,15 +221,15 @@
             <el-col :md="24">
               <el-form-item label="联系人头像">
                 <!--<el-upload-->
-                  <!--:disabled="flag"-->
-                  <!--:show-file-list="false"-->
-                  <!--:on-success="(res,file)=>{return handleSuccess(res,file,'head')}"-->
-                  <!--:before-upload="beforeAvatarUpload"-->
-                  <!--class="avatar-uploader"-->
-                  <!--action="/seller/pdt_PdtProduct_upload?widthLimit=0"-->
-                  <!--accept="image/jpeg,image/gif,image/png">-->
-                  <!--<img v-if="head" :src="head" class="avatar">-->
-                  <!--<i v-else class="el-icon-plus avatar-uploader-icon el-upload"/>-->
+                <!--:disabled="flag"-->
+                <!--:show-file-list="false"-->
+                <!--:on-success="(res,file)=>{return handleSuccess(res,file,'head')}"-->
+                <!--:before-upload="beforeAvatarUpload"-->
+                <!--class="avatar-uploader"-->
+                <!--action="/seller/pdt_PdtProduct_upload?widthLimit=0"-->
+                <!--accept="image/jpeg,image/gif,image/png">-->
+                <!--<img v-if="head" :src="head" class="avatar">-->
+                <!--<i v-else class="el-icon-plus avatar-uploader-icon el-upload"/>-->
                 <!--</el-upload>-->
                 <img
                   :src="head?head:'/seller/static/admin/images/blank.gif'"
@@ -480,7 +480,7 @@
 import request from '@/utils/request'
 
 export default {
-  name: 'SuppilterInfo',
+  name: 'SupplierInfo',
   data() {
     return {
       fullscreenLoading: false,

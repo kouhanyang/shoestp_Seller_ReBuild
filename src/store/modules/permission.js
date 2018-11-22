@@ -4,6 +4,9 @@ import {
 } from '@/router'
 
 import store from '@/store'
+import activitySignIn
+  from '@/router/modules/activitySignIn'
+
 const permission = {
   state: {
     routers: constantRouterMap,
@@ -20,14 +23,18 @@ const permission = {
       commit
     }, data) {
       return new Promise(resolve => {
-        commit('SET_ROUTERS', asyncRouterMap.filter(item => {
+        const temp = asyncRouterMap.filter(item => {
           return store.getters.roles.some(value => {
             if (item.meta && item.meta.roles) {
               return item.meta.roles.indexOf(value) > -1
             }
             return true
           })
-        }))
+        })
+        for (const value of activitySignIn(store.state.user.id)) {
+          temp.push(value)
+        }
+        commit('SET_ROUTERS', temp)
         resolve()
       })
     }

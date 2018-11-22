@@ -298,13 +298,13 @@ export const asyncRouterMap = [{
     }
   }]
 }, {
-  path: '/suppliterInfo',
+  path: '/supplierInfo',
   component: Layout,
   children: [{
     path: 'index',
     component: () =>
-        import('@/views/suppliterInfo'),
-    name: 'suppliterInfo',
+        import('@/views/supplierInfo'),
+    name: 'supplierInfo',
     meta: {
       title: '供应商信息',
       icon: 'icon',
@@ -326,4 +326,5 @@ export const asyncRouterMap = [{
     }
   }]
 }
+
 ]
