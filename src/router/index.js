@@ -81,7 +81,7 @@ export const asyncRouterMap = [{
   alwaysShow: true,
   meta: {
     title: '询盘管理',
-    icon: 'lock',
+    icon: 'list',
     roles: ['一级供应商']
   },
   children: [{
@@ -115,33 +115,13 @@ export const asyncRouterMap = [{
     }
   }]
 }, {
-  path: '/paySetting',
-  component: () => import('@/views/layout/Layout'),
-  redirect: '/paySetting/index',
-  alwaysShow: true,
-  meta: {
-    title: '支付设置',
-    icon: 'lock',
-    roles: ['一级供应商']
-  },
-  children: [{
-    path: 'index',
-    component: () =>
-      import('@/views/paySetting'),
-    name: '支付设置',
-    meta: {
-      title: '支付设置',
-      roles: ['一级供应商']
-    }
-  }]
-}, {
   path: '/freightManage',
   component: () => import('@/views/layout/Layout'),
   redirect: '/freightManage/index',
   alwaysShow: true,
   meta: {
     title: '运费管理',
-    icon: 'lock',
+    icon: 'list',
     roles: ['一级供应商']
   },
   children: [{
@@ -173,7 +153,7 @@ export const asyncRouterMap = [{
   alwaysShow: true,
   meta: {
     title: '产品管理',
-    icon: 'lock',
+    icon: 'list',
     roles: ['一级供应商']
   },
   children: [{
@@ -272,6 +252,7 @@ export const asyncRouterMap = [{
 {
   path: '/icon',
   component: Layout,
+  hidden: true,
   children: [{
     path: 'index',
     component: () =>
@@ -293,7 +274,7 @@ export const asyncRouterMap = [{
     name: 'accsetting',
     meta: {
       title: '账户设置',
-      icon: 'icon',
+      icon: '设置',
       noCache: true
     }
   }]
@@ -321,8 +302,28 @@ export const asyncRouterMap = [{
     name: 'shopDec',
     meta: {
       title: '店铺装修',
-      icon: 'icon',
+      icon: '设置',
       noCache: true
+    }
+  }]
+}, {
+  path: '/paySetting',
+  component: () => import('@/views/layout/Layout'),
+  redirect: '/paySetting/index',
+  alwaysShow: true,
+  meta: {
+    title: '支付设置',
+    icon: '设置',
+    roles: ['一级供应商']
+  },
+  children: [{
+    path: 'index',
+    component: () =>
+      import('@/views/paySetting'),
+    name: '支付设置',
+    meta: {
+      title: '支付设置',
+      roles: ['一级供应商']
     }
   }]
 }

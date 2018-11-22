@@ -15,7 +15,7 @@ const role = [{
     name: 'activitySignIn',
     meta: {
       title: '  查看报名',
-      icon: 'icon'
+      icon: 'list'
     }
   }]
 }, {
@@ -29,7 +29,7 @@ const role = [{
     name: 'ActivitySignInView',
     meta: {
       title: '  查看信息',
-      icon: 'icon'
+      icon: 'list'
     }, query: {
       id: 'id'
     }

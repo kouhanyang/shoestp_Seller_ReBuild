@@ -215,10 +215,11 @@ export default {
       this.showEdit = true
       this.type = 0
       const self = this
-
       this.temp.categoryUp = this.tableData.filter(res => {
         if (res.pkey !== row.pkey) {
-          if (res.categoryUp === null) { return true }
+          if (!res.categoryUp) {
+            return true
+          }
         }
         return false
       })
