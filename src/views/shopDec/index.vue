@@ -520,22 +520,16 @@ export default {
     getCommit() {
       const that = this
       const check = /^[a-zA-Z]*[0-9]*[\x21-\x7e]*$/
-      for (var i = 0; i < that.data.adPhotoLinkArr.length; i++) {
+      for (let i = 0; i < that.data.adPhotoLinkArr.length; i++) {
         if (!(check.test(that.data.adPhotoLinkArr[i]))) {
-          this.$message({
-            type: 'error',
-            message: '请填写数字/字母/符号'
-          })
+          this.$alert('首页大海报下的第' + (i + 1) + '个广告链接错误，请填写数字/字母/符号')
           return
         }
       }
 
       for (let i = 0; i < that.data.companyPhotoLinkArr.length; i++) {
         if (!(check.test(that.data.companyPhotoLinkArr[i]))) {
-          this.$message({
-            type: 'error',
-            message: '请填写数字/字母/符号'
-          })
+          this.$alert('首页企业大海报下的第' + (i + 1) + '个广告链接错误，请填写数字/字母/符号')
           return
         }
       }
