@@ -318,7 +318,7 @@ export const asyncRouterMap = [{
   children: [{
     path: 'index',
     component: () =>
-      import('@/views/paySetting'),
+        import('@/views/paySetting'),
     name: '支付设置',
     meta: {
       title: '支付设置',
@@ -335,6 +335,20 @@ export const asyncRouterMap = [{
     name: 'pkContest',
     meta: {
       title: 'pk大赛报名列表',
+      icon: 'icon',
+      noCache: true
+    }
+  }]
+}, {
+  path: '/pkStatistics',
+  component: Layout,
+  children: [{
+    path: 'index',
+    component: () =>
+        import('@/views/PKContest/dataStatistics'),
+    name: 'pkStatistics',
+    meta: {
+      title: '技能大赛数据统计',
       icon: 'icon',
       noCache: true
     }
