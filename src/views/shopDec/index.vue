@@ -470,8 +470,9 @@ export default {
           that.data.logo = count.logo
           that.data.signBackGD = count.signBackGD
           that.data.adPhoto = JSON.parse(count.adPhoto)
-          that.data.adPhoto[that.homeActiveName].split(',').forEach((value) => {
+          that.data.adPhoto[that.homeActiveName].split(',').forEach((value, index) => {
             if (value) {
+              if (index >= 3) return
               if (value.indexOf(store.getters.ImageBaseUrl) !== -1) {
                 that.adPhotoArr.push({
                   name: value,
@@ -497,8 +498,9 @@ export default {
             }
           }
           that.data.companyPhoto = JSON.parse(count.companyPhoto)
-          that.data.companyPhoto[that.companyPhotoActiveName].split(',').forEach((value) => {
+          that.data.companyPhoto[that.companyPhotoActiveName].split(',').forEach((value, index) => {
             if (value) {
+              if (index >= 3) return
               that.companyPhotoArr.push({
                 name: value,
                 url: store.getters.ImageBaseUrl + value
@@ -541,7 +543,6 @@ export default {
       })
       that.data.adPhoto[that.homeActiveName] = url
       that.data.adPhotoLink[that.homeActiveName] = that.data.adPhotoLinkArr.join(',')
-
       url = ''
       that.companyPhotoArr.forEach((value) => {
         if (url.length > 0) {
