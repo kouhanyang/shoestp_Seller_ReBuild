@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
-Vue.use(Router)
-
 /* Layout */
 import Layout from '@/views/layout/Layout'
+
+Vue.use(Router)
 
 /** note: submenu only apppear when children.length>=1
  *  detail see  https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -324,6 +323,20 @@ export const asyncRouterMap = [{
     meta: {
       title: '支付设置',
       roles: ['一级供应商']
+    }
+  }]
+}, {
+  path: '/pk',
+  component: Layout,
+  children: [{
+    path: 'index',
+    component: () =>
+        import('@/views/pkContest'),
+    name: 'pkContest',
+    meta: {
+      title: 'pk大赛报名列表',
+      icon: 'icon',
+      noCache: true
     }
   }]
 }
