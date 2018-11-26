@@ -41,7 +41,7 @@
           <el-switch
             v-model="data.bottomProductDisplay"
             active-color="#13ce66"
-            inactive-color="#ff49s49"/>
+            inactive-color="#ff4949"/>
         </el-form-item>
       </el-card>
       <el-card style="margin-top: 1%">
@@ -59,36 +59,27 @@
               :label="d.displayName"
               :data-short-name="d.shortName"
               :name="d.shortName"
-              :key="d.shortName"/>
-            <el-upload
-              :limit="3"
-              :file-list="adPhotoArr"
-              :class="{'no-add-btn':adPhotoArr.length>2}"
-              :on-success="adPhotoSuccess"
-              :before-upload="validatePidSzie"
-              :on-remove="adPhotoRemove"
-              class="long-pic-wrap"
-              action="/seller/usr_UsrSupplier_upload"
-              list-type="picture-card">
-              <i class="el-icon-plus"/>
-            </el-upload>
-            <el-form-item label="广告链接：" label-width="0"/>
-            <el-form-item
-              v-for="(value,index) in data.adPhotoLinkArr"
-              :key="index"
-              :rules="[{
-                         min: 0,
-                         max: 100,
-                         message: '长度不得超过100个字符',trigger: ['blur']},
-                       {
-                         pattern: /^[a-zA-Z]*[0-9]*[\x21-\x7e]*$/,
-                         message: '请填写数字/字母/符号'
-                       }
-              ]"
-              :prop="data.adPhotoLinkArr[index]"
-              class="mb20">
-              <el-input v-model="data.adPhotoLinkArr[index]" :key="index" placeholder="请输入链接"/>
-            </el-form-item>
+              :key="d.shortName">
+              <el-upload
+                :limit="3"
+                :file-list="adPhotoArr"
+                :class="{'no-add-btn':adPhotoArr.length>2}"
+                :on-success="adPhotoSuccess"
+                :before-upload="validatePidSzie"
+                :on-remove="adPhotoRemove"
+                class="long-pic-wrap"
+                action="/seller/usr_UsrSupplier_upload"
+                list-type="picture-card">
+                <i class="el-icon-plus"/>
+              </el-upload>
+              <el-form-item label="广告链接：" label-width="0"/>
+              <el-form-item
+                v-for="(value,index) in data.adPhotoLinkArr"
+                :key="index"
+                class="mb20">
+                <el-input v-model="data.adPhotoLinkArr[index]" :key="index" placeholder="请输入链接"/>
+              </el-form-item>
+            </el-tab-pane>
           </el-tabs>
         </el-form-item>
         <el-form-item label="首页企业大海报：">
@@ -122,18 +113,11 @@
               <el-form-item
                 v-for="(value,index) in data.companyPhotoLinkArr"
                 :key="index"
-                :rules="[{
-                           min: 0,
-                           max: 100,
-                           message: '长度不得超过100个字符',trigger: 'blur'},
-                         {
-                           pattern: /^[a-zA-Z]*[0-9]*[\x21-\x7e]*$/,
-                           message: '请填写数字/字母/符号'
-                         }
-                ]"
-                :prop="data.companyPhotoLinkArr[index]"
                 class="mb20">
-                <el-input :key="index" v-model="data.companyPhotoLinkArr[index]" placeholder="请输入链接"/>
+                <el-input
+                  :key="index"
+                  v-model="data.companyPhotoLinkArr[index]"
+                  placeholder="请输入链接"/>
               </el-form-item>
             </el-tab-pane>
           </el-tabs>
@@ -275,8 +259,9 @@ export default {
       this.data.adPhotoLink[oldLang] = this.data.adPhotoLinkArr.join(',')
       this.adPhotoArr = []
       this.data.adPhotoLinkArr = []
-      this.data.adPhoto[tab.$el.dataset.shortName].split(',').forEach((value) => {
+      this.data.adPhoto[tab.$el.dataset.shortName].split(',').forEach((value, index) => {
         if (value) {
+          if (index >= 3) return
           if (value.indexOf(store.getters.ImageBaseUrl) !== -1) {
             this.adPhotoArr.push({
               name: value,
@@ -317,8 +302,9 @@ export default {
       this.data.companyPhotoLink[oldLang] = this.data.companyPhotoLinkArr.join(',')
       this.companyPhotoArr = []
       this.data.companyPhotoLinkArr = []
-      this.data.companyPhoto[tab.$el.dataset.shortName].split(',').forEach((value) => {
+      this.data.companyPhoto[tab.$el.dataset.shortName].split(',').forEach((value, index) => {
         if (value) {
+          if (index >= 3) return
           if (value.indexOf(store.getters.ImageBaseUrl) !== -1) {
             this.companyPhotoArr.push({
               name: value,
@@ -423,10 +409,10 @@ export default {
       }).then(() => {
         return file
       }, () => {
-        self.$notify({
-          title: '提示',
-          message: '上传图片宽高比列建议为 1:1'
-        })
+        // self.$notify({
+        //   title: '提示',
+        //   message: '上传图片宽高比列建议为 1:1'
+        // })
         return file
       })
       var isLt2M = file.size / 1024 / 1024 < 5
@@ -468,7 +454,8 @@ export default {
           that.data.homeBusinessBigPoster = count.homebusinessbigposter
           that.data.aboutPageCustomDecoration = count.aboutpagecustomdecoration
           that.data.logo = count.logo
-          that.data.signBackGD = count.signBackGD
+          console.log(count.signBackGD)
+          that.data.signBackGD = count.signBackGD == undefined ? '' : count.signBackGD
           that.data.adPhoto = JSON.parse(count.adPhoto)
           that.data.adPhoto[that.homeActiveName].split(',').forEach((value, index) => {
             if (value) {
@@ -532,6 +519,26 @@ export default {
     },
     getCommit() {
       const that = this
+      const check = /^[a-zA-Z]*[0-9]*[\x21-\x7e]*$/
+      for (var i = 0; i < that.data.adPhotoLinkArr.length; i++) {
+        if (!(check.test(that.data.adPhotoLinkArr[i]))) {
+          this.$message({
+            type: 'error',
+            message: '请填写数字/字母/符号'
+          })
+          return
+        }
+      }
+
+      for (let i = 0; i < that.data.companyPhotoLinkArr.length; i++) {
+        if (!(check.test(that.data.companyPhotoLinkArr[i]))) {
+          this.$message({
+            type: 'error',
+            message: '请填写数字/字母/符号'
+          })
+          return
+        }
+      }
       let url = ''
       that.adPhotoArr.forEach((value) => {
         if (url.length > 0) {
@@ -557,18 +564,18 @@ export default {
       that.data.homePageDIY[that.homeDIYName] = window.tinymce.get('homePersonalityDecoration').getContent()
       that.data.aboutPageDIY[that.productPagePersonalityDIYName] = window.tinymce.get('productPagePersonalityDecoration').getContent()
       for (const homePersonalityDecorationKey in that.data.homePageDIY) {
-        if (that.data.homePageDIY[homePersonalityDecorationKey].length > 1000) {
+        if (that.data.homePageDIY[homePersonalityDecorationKey].length > 10000) {
           this.$message({
-            message: '首页个性装修字符不得大于1000',
+            message: '首页个性装修字符不得大于10000',
             type: 'error'
           })
           return
         }
       }
       for (const homePersonalityDecorationKey in that.data.aboutPageDIY) {
-        if (that.data.aboutPageDIY[homePersonalityDecorationKey].length > 1000) {
+        if (that.data.aboutPageDIY[homePersonalityDecorationKey].length > 10000) {
           this.$message({
-            message: '公司介绍页自定义装修字符不得大于1000',
+            message: '公司介绍页自定义装修字符不得大于10000',
             type: 'error'
           })
           return
