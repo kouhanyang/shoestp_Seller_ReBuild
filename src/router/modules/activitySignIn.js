@@ -34,7 +34,20 @@ const role = [{
       id: 'id'
     }
   }]
-}]
+}, {
+  path: '/pk',
+  component: () => import('@/views/layout/Layout'),
+  children: [{
+    path: 'index',
+    component: () =>
+        import('@/views/pkContest'),
+    name: 'pkContest',
+    meta: {
+      title: 'pk大赛报名列表',
+      icon: 'icon',
+      noCache: true
+    }
+  }] }]
 
 export default (id) => {
   if (id === 262) {
