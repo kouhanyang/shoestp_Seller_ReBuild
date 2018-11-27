@@ -21,8 +21,8 @@
         label="询盘名称"
         width="180"/>
       <el-table-column
-        prop="name"
-        label="名字"
+        prop="email"
+        label="采购商邮箱"
         width="180"/>
       <el-table-column
         prop="countryName"
@@ -102,7 +102,7 @@ export default {
       return url
     },
     lookUpData: function(id) {
-      this.$router.push({ name: 'askDetail', params: { id: id }})
+      this.$router.push({ name: 'beloangdetail', params: { id: id }})
     },
     handleSizeChange(val) {
       this.page.showItem = val
@@ -133,6 +133,15 @@ export default {
       }).then(res => {
         self.tableData = res.data.result.items
         for (var i in self.tableData) {
+          if (self.tableData[i].title && self.tableData[i].title.length > 40) {
+            self.tableData[i].title = self.tableData[i].title.substr(0, 40) + '...'
+          }
+          if (self.tableData[i].email && self.tableData[i].email.length > 10) {
+            self.tableData[i].email = self.tableData[i].email.substr(0, 10) + '...'
+          }
+          if (self.tableData[i].countryName && self.tableData[i].countryName.length > 16) {
+            self.tableData[i].countryName = self.tableData[i].countryName.substr(0, 16) + '...'
+          }
           var data = self.tableData[i]
           self.tableData[i].robbingState = data.supplierCount + ' / 5'
         }
@@ -157,6 +166,15 @@ export default {
       }).then(res => {
         self.tableData = res.data.result.items
         for (var i in self.tableData) {
+          if (self.tableData[i].title && self.tableData[i].title.length > 40) {
+            self.tableData[i].title = self.tableData[i].title.substr(0, 40) + '...'
+          }
+          if (self.tableData[i].email && self.tableData[i].email.length > 10) {
+            self.tableData[i].email = self.tableData[i].email.substr(0, 10) + '...'
+          }
+          if (self.tableData[i].countryName && self.tableData[i].countryName.length > 16) {
+            self.tableData[i].countryName = self.tableData[i].countryName.substr(0, 16) + '...'
+          }
           var data = self.tableData[i]
           self.tableData[i].robbingState = data.supplierCount + ' / 5'
         }

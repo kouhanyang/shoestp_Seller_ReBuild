@@ -80,7 +80,7 @@ export const asyncRouterMap = [{
   alwaysShow: true,
   meta: {
     title: '询盘管理',
-    icon: 'list',
+    icon: 'lock',
     roles: ['一级供应商']
   },
   children: [{
@@ -112,7 +112,30 @@ export const asyncRouterMap = [{
       title: 'askDetail',
       roles: ['一级供应商']
     }
+  }, {
+    path: 'detailprivate',
+    component: () =>
+      import('@/views/belongaskList/detailprivate/index'),
+    name: 'beloangdetail',
+    alwaysShow: false,
+    hidden: true,
+    meta: {
+      title: '专属询盘详情',
+      roles: ['一级供应商']
+    }
   }]
+//   , {
+//   path: 'detail1',
+//   component: () =>
+//     import('@/views/askList/detail1/index'),
+//   name: 'askDetail1',
+//   alwaysShow: false,
+//   hidden: true,
+//   meta: {
+//     title: '询盘详情',
+//     roles: ['一级供应商']
+//   }
+// }
 }, {
   path: '/freightManage',
   component: () => import('@/views/layout/Layout'),
@@ -339,20 +362,22 @@ export const asyncRouterMap = [{
       noCache: true
     }
   }]
-}, {
-  path: '/pkStatistics',
-  component: Layout,
-  children: [{
-    path: 'index',
-    component: () =>
-        import('@/views/PKContest/dataStatistics'),
-    name: 'pkStatistics',
-    meta: {
-      title: '技能大赛数据统计',
-      icon: 'icon',
-      noCache: true
-    }
-  }]
 }
+// , {
+//   path: '/pkStatistics',
+//   component: Layout,
+//   children: [{
+//     path: 'index',
+//     component: () =>
+//         import('@/views/PKContest/dataStatistics'),
+//     name: 'pkStatistics',
+//     meta: {
+//       title: '技能大赛数据统计',
+//       icon: 'icon',
+//       noCache: true
+//     }
+//   }
+//   ]
+// }
 
 ]

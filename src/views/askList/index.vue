@@ -8,120 +8,115 @@
         <el-form-item label="询盘标题" label-width="80px">
           <el-input v-model="page.title" placeholder="请输入询盘名称"/>
         </el-form-item>
-        <!--<span>抢单</span>-->
-        <el-form-item label="抢单" label-width="80px">
-          <el-select v-model="page.qdvalue" placeholder="请选择" size="mini">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"/>
-          </el-select>
-        </el-form-item>
-
-        <el-button type="primary" size="mini" @click="getSelectTableData">
+        <el-button type="primary" size="mini" @click="selectlayer(activeName)">
           {{ $t('search') }}
         </el-button>
       </el-form>
     </el-row>
-    <el-table
-      :data="tableData"
-      style="width: 100%">
-      <el-table-column
-        prop="title"
-        label="询盘名称"
-        width="180"/>
-      <el-table-column
-        prop="name"
-        label="名字"
-        width="180"/>
-      <el-table-column
-        prop="countryName"
-        label="国家">
-        <template slot-scope="scope">
-          <img v-if="scope.row.countryFlag!=''" :src="getImageUrl(scope.row.countryFlag)" style="max-width: 150px">
-          <label v-else>{{ scope.row.countryName }}</label>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="robbingState"
-        label="已抢单"/>
-      <el-table-column
-        prop="createTime"
-        label="时间"/>
-      <el-table-column
-        fixed="right"
-        label="操作"
-      >
-        <template slot-scope="scope">
-          <el-button type="text" size="small" @click="lookUpData(scope.row.id)">查看</el-button>
-        </template>
-      </el-table-column>
+    <template>
+      <el-tabs v-model="activeName" @tab-click="Middlelayer">
+        <el-tab-pane label="商家已抢单" name="first">
+          <el-table
+            :data="RobbingData"
+            style="width: 100%">
+            <el-table-column
+              prop="title"
+              label="询盘名称"
+              width="250"/>
+            <el-table-column
+              prop="email"
+              label="采购商邮箱"
+              width="220"/>
+            <el-table-column
+              prop="countryName"
+              label="国家">
+              <template slot-scope="scope">
+                <img
+                  v-if="scope.row.countryFlag!=''"
+                  :src="getImageUrl(scope.row.countryFlag)"
+                  style="max-width: 50px">
+                <label v-else>{{ scope.row.countryName }}</label>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="robbingState"
+              label="已抢单"/>
+            <el-table-column
+              prop="createTime"
+              label="时间"/>
+            <el-table-column
+              fixed="right"
+              label="操作"
+            >
+              <template slot-scope="scope">
+                <el-button type="text" size="small" @click="lookUpData(scope.row)">查看</el-button>
+              </template>
+            </el-table-column>
 
-    </el-table>
+          </el-table>
 
-    <el-pagination
-      :page-count="page.total"
-      style="text-align: center;"
-      background
-      layout="prev, pager, next"
-      @current-change="handleCurrentChange"
-      @size-change="handleSizeChange"
-    />
-    <!-- :current-page="page.curr"
-      :page-sizes="[10, 20, 30, 40]"
-      :page-size="100"
-      layout="total, sizes, prev, pager, next, jumper"-->
+          <el-pagination
+            :page-count="page.total"
+            style="text-align: center;"
+            background
+            layout="prev, pager, next"
+            @current-change="handleCurrentChange"
+            @size-change="handleSizeChange"
+          />
 
-    <el-dialog
-      :visible.sync="lookUp"
-      width="870px"
-      title="抢单"
-      center
-      @close="robbingClose">
-      <el-form ref="form" label-width="88px">
-        <el-form-item label="询盘名称：">
-          <el-input :disabled="writeFlag" v-model="bean.title"/>
-        </el-form-item>
-        <el-form-item label="产品图片：">
-          <el-upload
-            v-if="bean.showImage"
-            :disabled="writeFlag"
-            :src="bean.showImage"
-            class="avatar-uploader"/>
-          <img
-            class="avatar"
-            style="width:208px;">
-        </el-form-item>
-        <!--&lt;!&ndash;<el-form-item label="产品编号：">-->
-        <!--<el-input v-model="form.name"></el-input>-->
-        <!--</el-form-item>&ndash;&gt;-->
-        <el-form-item label="姓名：">
-          <el-input :disabled="writeFlag" v-model="bean.name"/>
-        </el-form-item>
-        <el-form-item label="国家：">
-          <img :src="getImageUrl(bean.image)" style="max-width: 150px">
-        </el-form-item>
-        <el-form-item label="时间：">
-          <el-input :disabled="writeFlag" v-model="bean.createTime"/>
-        </el-form-item>
-        <el-form-item label="已抢单：">
-          <el-input :disabled="writeFlag" v-model="bean.robbingState"/>
-        </el-form-item>
-        <el-form-item label="留言：">
-          <el-input :rows="7" v-model="robbingInfo.msg" placeholder="输入留言" type="textarea"/>
-        </el-form-item>
-        <el-form-item label="报价：" style="margin-bottom:0;">
-          <el-input v-model="robbingInfo.quotedPrice" placeholder="请输入您的报价"/>
-        </el-form-item>
+        </el-tab-pane>
+        <el-tab-pane label="未抢单" name="second">
+          <el-table
+            :data="NorobberyData"
+            style="width: 100%">
+            <el-table-column
+              prop="title"
+              label="询盘名称"
+              width="250"/>
+            <el-table-column
+              prop="email"
+              label="采购商邮箱"
+              width="220"/>
+            <el-table-column
+              prop="countryName"
+              label="国家">
+              <template slot-scope="scope">
+                <img
+                  v-if="scope.row.countryFlag!=''"
+                  :src="getImageUrl(scope.row.countryFlag)"
+                  style="max-width: 50px">
+                <label v-else>{{ scope.row.countryName }}</label>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="robbingState"
+              label="已抢单"/>
+            <el-table-column
+              prop="createTime"
+              label="时间"/>
+            <el-table-column
+              fixed="right"
+              label="操作"
+            >
+              <template slot-scope="scope">
+                <el-button type="text" size="small" @click="lookUpData(scope.row)">查看</el-button>
+              </template>
+            </el-table-column>
 
-      </el-form>
-      <!--</fieldset>-->
-      <span slot="footer" class="dialog-footer">
-        <el-button style="background-color:#B5B6BB;color:#fff;" @click="lookUp = false">取 消</el-button>
-        <el-button type="primary" @click="robbingIt">立即抢单</el-button>
-      </span>
-    </el-dialog>
+          </el-table>
+
+          <el-pagination
+            :page-count="page.total"
+            style="text-align: center;"
+            background
+            layout="prev, pager, next"
+            @current-change="handleCurrentChange"
+            @size-change="handleSizeChange"
+          />
+
+        </el-tab-pane>
+      </el-tabs>
+    </template>
 
   </div>
 </template>
@@ -131,6 +126,9 @@ import request from '@/utils/request'
 export default {
   data() {
     return {
+      activeName: 'first',
+      NorobberyData: [],
+      RobbingData: [],
       tableData: [],
       bean: {},
       page: {
@@ -149,23 +147,98 @@ export default {
         id: '',
         msg: '',
         quotedPrice: ''
-      },
-      options: [{
-        value: '',
-        label: '所有询盘'
-      }, {
-        value: '0',
-        label: '未抢单'
-      }, {
-        value: '1',
-        label: '已抢单'
-      }]
+      }
     }
   },
   mounted: function() {
     this.getTableData()
   },
   methods: {
+    Middlelayer(v) {
+      var self = this
+      self.page.curr = 1
+      self.page.total = 1
+      self.handleClick(v.name)
+    }, selectlayer(v) {
+      var self = this
+      self.page.curr = 1
+      self.page.total = 1
+      self.handleClick(v)
+    },
+    handleClick(v) {
+      var self = this
+      self.start = 0
+      if (self.page.curr === 1) {
+        self.start = 0
+      } else {
+        self.start = (self.page.curr - 1) * self.page.showItem
+      }
+      if (v === 'first') {
+        var param = {
+          'start': self.start,
+          'limit': self.page.showItem,
+          'countryName': self.page.country,
+          'title': self.page.title,
+          'qdvalue': 1
+        }
+        request({
+          url: '/seller/usr_UsrConsult_page',
+          method: 'get',
+          params: param
+        }).then(res => {
+          self.RobbingData = res.data.result.items
+          self.page.curr = res.data.result.currentPage
+          self.page.total = res.data.result.totalPage
+          for (var i in self.RobbingData) {
+            if (self.RobbingData[i].title && self.RobbingData[i].title.length > 40) {
+              self.RobbingData[i].title = self.RobbingData[i].title.substr(0, 40) + '...'
+            }
+            if (self.RobbingData[i].email && self.RobbingData[i].email.length > 10) {
+              self.RobbingData[i].email = self.RobbingData[i].email.substr(0, 10) + '...'
+            }
+            if (self.RobbingData[i].countryName && self.RobbingData[i].countryName.length > 16) {
+              self.RobbingData[i].countryName = self.RobbingData[i].countryName.substr(0, 16) + '...'
+            }
+            var data = self.RobbingData[i]
+            self.RobbingData[i].robbingState = data.supplierCount + ' / 5'
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        var param1 = {
+          'start': self.start,
+          'limit': self.page.showItem,
+          'countryName': self.page.country,
+          'title': self.page.title,
+          'qdvalue': 0
+        }
+        request({
+          url: '/seller/usr_UsrConsult_page',
+          method: 'get',
+          params: param1
+        }).then(res => {
+          self.NorobberyData = res.data.result.items
+          self.page.curr = res.data.result.currentPage
+          self.page.total = res.data.result.totalPage
+          for (var i in self.NorobberyData) {
+            if (self.NorobberyData[i].title && self.NorobberyData[i].title.length > 40) {
+              self.NorobberyData[i].title = self.NorobberyData[i].title.substr(0, 40) + '...'
+            }
+            if (self.NorobberyData[i].email && self.NorobberyData[i].email.length > 10) {
+              self.NorobberyData[i].email = self.NorobberyData[i].email.substr(0, 10) + '...'
+            }
+            if (self.NorobberyData[i].countryName && self.NorobberyData[i].countryName.length > 16) {
+              self.NorobberyData[i].countryName = self.NorobberyData[i].countryName.substr(0, 16) + '...'
+            }
+            var data = self.NorobberyData[i]
+            self.NorobberyData[i].robbingState = data.supplierCount + ' / 5'
+          }
+        }).catch(err => {
+          console.log(err)
+        })
+      }
+    },
     getImageUrl(url) {
       if (url && url.length > 0) {
         return this.imgUrlconfig + url
@@ -179,19 +252,18 @@ export default {
     },
     handleSizeChange(val) {
       this.page.showItem = val
-      this.getTableData()
+      this.handleClick(this.activeName)
     },
     handleCurrentChange(val) {
       this.page.curr = val
-      this.getTableData()
+      this.handleClick(this.activeName)
     },
-    lookUpData: function(id) {
-      var self = this
+    lookUpData: function(row) {
       request({
         url: '/seller/usr_UsrConsult_detail',
         method: 'get',
         params: {
-          id: id
+          id: row.id
         }
       }).then(res => {
         if (res.data.ret === 1) {
@@ -200,19 +272,10 @@ export default {
           }
           if (res.data.result.relations !== undefined) {
             // 专属询盘处理方式
-            this.$router.push({ name: 'askDetail', params: { id: id }})
+            this.$router.push({ name: 'beloangdetail', params: { id: row.id }})
           } else {
             // 公共询盘未抢单处理方式
-            self.bean = res.data.result
-            var data = self.tableData
-            for (var i in data) {
-              if (data[i].id === id) {
-                self.bean.robbingState = data[i].robbingState
-                self.bean.showImage = self.imgUrlconfig + data[i].image.split(',')[0]
-              }
-            }
-            self.robbingInfo.id = id
-            self.lookUp = true
+            this.$router.push({ name: 'askDetail1', params: { id: row.id, supplierCount: row.supplierCount }})
           }
         } else {
           this.$alert(res.data.msg, '消息', {
@@ -242,7 +305,6 @@ export default {
         method: 'post',
         params: self.robbingInfo
       }).then(res => {
-        console.log(res)
         if (res.data.ret === 1) {
           this.$alert('抢单成功', '消息', {
             confirmButtonText: '确定',
@@ -276,7 +338,7 @@ export default {
         'limit': this.page.showItem,
         'countryName': this.page.country,
         'title': this.page.title,
-        'qdvalue': this.page.qdvalue
+        'qdvalue': 1
       }
       var self = this
       request({
@@ -284,35 +346,19 @@ export default {
         method: 'get',
         params: param
       }).then(res => {
-        self.tableData = res.data.result.items
-        for (var i in self.tableData) {
-          var data = self.tableData[i]
-          self.tableData[i].robbingState = data.supplierCount + ' / 5'
-        }
-        self.page.curr = res.data.result.currentPage
-        self.page.total = res.data.result.totalPage
-      }).catch(err => {
-        console.log(err)
-      })
-    },
-    getSelectTableData: function() {
-      var param = {
-        'start': 0,
-        'limit': this.page.showItem,
-        'countryName': this.page.country,
-        'title': this.page.title,
-        'qdvalue': this.page.qdvalue
-      }
-      var self = this
-      request({
-        url: '/seller/usr_UsrConsult_page',
-        method: 'get',
-        params: param
-      }).then(res => {
-        self.tableData = res.data.result.items
-        for (var i in self.tableData) {
-          var data = self.tableData[i]
-          self.tableData[i].robbingState = data.supplierCount + ' / 5'
+        self.RobbingData = res.data.result.items
+        for (var i in self.RobbingData) {
+          if (self.RobbingData[i].title && self.RobbingData[i].title.length > 40) {
+            self.RobbingData[i].title = self.RobbingData[i].title.substr(0, 40) + '...'
+          }
+          if (self.RobbingData[i].email && self.RobbingData[i].email.length > 10) {
+            self.RobbingData[i].email = self.RobbingData[i].email.substr(0, 10) + '...'
+          }
+          if (self.RobbingData[i].countryName && self.RobbingData[i].countryName.length > 16) {
+            self.RobbingData[i].countryName = self.RobbingData[i].countryName.substr(0, 16) + '...'
+          }
+          var data = self.RobbingData[i]
+          self.RobbingData[i].robbingState = data.supplierCount + ' / 5'
         }
         self.page.curr = res.data.result.currentPage
         self.page.total = res.data.result.totalPage
@@ -323,15 +369,6 @@ export default {
   }
 }
 
-function clearNoNum(obj) {
-  obj.value = obj.value.replace(/[^\d.]/g, '') // 清除“数字”和“.”以外的字符
-  obj.value = obj.value.replace(/\.{2,}/g, '.') // 只保留第一个. 清除多余的
-  obj.value = obj.value.replace('.', '$#$').replace(/\./g, '').replace('$#$', '.')
-  obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3')// 只能输入两个小数
-  if (obj.value.indexOf('.') < 0 && obj.value !== '') { // 以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
-    obj.value = parseFloat(obj.value)
-  }
-}
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
