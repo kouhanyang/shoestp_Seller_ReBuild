@@ -23,7 +23,7 @@ export default {
       this.hoodleShow = !this.hoodleShow
     },
     skip: function() {
-      window.location.href = 'pc-index.html'
+      window.location.href = '/activity/Pk/index.html'
     }
   }
 }
