@@ -1,17 +1,19 @@
 <template>
   <div class="dashboard-container">
     <component :is="currentRole"/>
+    <hoodle></hoodle>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import adminDashboard from './admin'
+import hoodle from './pop/hoodle'
 // import editorDashboard from './editor'
 
 export default {
   name: 'Dashboard',
-  components: { adminDashboard },
+  components: { adminDashboard, hoodle },
   data() {
     return {
       currentRole: 'adminDashboard'
