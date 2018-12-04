@@ -362,6 +362,20 @@ export const asyncRouterMap = [{
       noCache: true
     }
   }]
+}, {
+  path: '/newInq',
+  component: Layout,
+  children: [{
+    path: 'index',
+    component: () =>
+        import('@/views/newInq'),
+    name: 'newInq',
+    meta: {
+      title: '新询盘',
+      icon: 'icon',
+      noCache: true
+    }
+  }]
 }
 // , {
 //   path: '/pkStatistics',
