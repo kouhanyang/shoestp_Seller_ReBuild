@@ -29,10 +29,28 @@
           label="邮箱"
           width="180"/>
         <el-table-column
-          prop="detail"
-          label="详情"/>
+          label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" size="small" @click="show(scope.row)">详情</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </el-card>
+    <el-dialog
+      :visible.sync="showStats"
+      title="详情"
+      width="30%">
+      <el-input
+        :disabled="true"
+        :rows="2"
+        v-model="textField"
+        autosize
+        type="textarea"/>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="showStats = false">取 消</el-button>
+        <el-button type="primary" @click="showStats = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -43,7 +61,9 @@ export default {
   data() {
     return {
       tableData: [{}],
-      input: ''
+      input: '',
+      showStats: false,
+      textField: ''
     }
   },
   mounted() {
@@ -59,7 +79,6 @@ export default {
           name: self.input
         }
       }).then(data => {
-        console.log(data)
         self.tableData = data.data.result.items
       }).catch(err => {
         console.log(err)
@@ -79,6 +98,10 @@ export default {
     },
     refresh() {
       location.reload()
+    },
+    show(row) {
+      this.showStats = true
+      this.textField = row.detail
     }
   }
 }
