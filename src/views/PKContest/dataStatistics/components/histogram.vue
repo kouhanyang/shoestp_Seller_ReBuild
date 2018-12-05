@@ -9,11 +9,10 @@ require('echarts/theme/macarons') // echarts theme
 export default {
   props: {
     histogram: {
-      type: Object,
+      type: Array,
       default: function() {
-        return {}
-      }
-    }
+        return [0, 0, 0]
+      } }
   },
   data() {
     return {
@@ -60,7 +59,7 @@ export default {
             name: '直接访问',
             type: 'bar',
             barWidth: '20%',
-            data: [10, 52, 200, 334, 390, 330, 220]
+            data: this.histogram
           }
         ]
       })

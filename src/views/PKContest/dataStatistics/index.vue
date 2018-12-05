@@ -1,7 +1,7 @@
 <template>
   <div class="main">
 
-    <el-card class="box-card">
+    <el-card v-if="pkdata" class="box-card">
       <div slot="header" class="clearfix">
         <span>新联杯活动数据</span>
       </div>
@@ -25,7 +25,8 @@
               </div>
               <div class="card-panel-description">
                 <div class="card-panel-text">曝光量</div>
-                <!--<count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num"/>-->
+                {{ pkdata.pkCompetitionData.pe }}
+
               </div>
             </div>
           </el-col>
@@ -36,7 +37,8 @@
               </div>
               <div class="card-panel-description">
                 <div class="card-panel-text">点击量</div>
-                <!--<count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num"/>-->
+                {{ pkdata.pkCompetitionData.trafficvolume }}
+
               </div>
             </div>
           </el-col>
@@ -47,8 +49,10 @@
               </div>
               <div class="card-panel-description">
                 <div class="card-panel-text">询盘量</div>
-                <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num"/>
+                {{ pkdata.pkCompetitionData.inquiry }}
+
               </div>
+
             </div>
           </el-col>
         </el-row>
@@ -62,7 +66,9 @@
           </div>
         </div>
         <div>
-          <histogram :histogram="{}" style="margin: 0 auto;"/>
+          <histogram
+            :histogram="[pkdata.pkCompetitionGlobalDataView.top5,pkdata.pkCompetitionGlobalDataView.sum,pkdata.pkCompetitionData.pe]"
+            style="margin: 0 auto;"/>
         </div>
       </div>
     </el-card>
@@ -71,6 +77,7 @@
 
 <script>
 import histogram from './components/histogram'
+import request from '@/utils/request'
 
 export default {
   components: {
@@ -80,8 +87,20 @@ export default {
     return {
       times: '',
       options: '',
-      timeSelect: 'exposure'
+      timeSelect: 'exposure',
+      pkdata: null
     }
+  },
+  mounted() {
+    request({
+      url: '/seller/activitys_Activity_getPkData',
+      method: 'get'
+    }).then(value => {
+      value = value.data
+      if (value.ret == 1) {
+        this.pkdata = value.result
+      }
+    })
   },
   methods: {
     timeSelectChange(val) {

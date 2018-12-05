@@ -40,14 +40,43 @@ const role = [{
   children: [{
     path: 'index',
     component: () =>
-        import('@/views/pkContest'),
+      import('@/views/pkContest'),
     name: 'pkContest',
     meta: {
       title: 'pk大赛报名列表',
       icon: 'icon',
       noCache: true
     }
-  }] }]
+  }]
+}, {
+  path: '/pkStatistics',
+  component: () => import('@/views/layout/Layout'),
+  children: [{
+    path: 'index',
+    component: () =>
+      import('@/views/PKContest/dataStatistics'),
+    name: 'pkStatistics',
+    meta: {
+      title: '技能大赛数据统计',
+      icon: 'icon',
+      noCache: true
+    }
+  }]
+}, {
+  path: '/newInq',
+  component: () => import('@/views/layout/Layout'),
+  children: [{
+    path: 'index',
+    component: () =>
+      import('@/views/newInq'),
+    name: 'newInq',
+    meta: {
+      title: '新询盘',
+      icon: 'icon',
+      noCache: true
+    }
+  }]
+}]
 
 export default (id) => {
   if (id === 262) {
