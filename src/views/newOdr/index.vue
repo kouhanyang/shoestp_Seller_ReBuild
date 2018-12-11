@@ -24,7 +24,9 @@
       <el-col :sm="24" :md="12" :lg="6">
         <el-form-item>
           <el-button type="primary" @click="initTableData(1)">{{ $t('查询') }}</el-button>
+          <el-button type="primary" @click="allexport">{{ $t('全部导出') }}</el-button>
         </el-form-item>
+
       </el-col>
     </el-form>
     <!-- 搜索条 - end -->
@@ -115,6 +117,19 @@ export default {
       }).then((res) => {
         if (res.data.ret != 1) return
         this.resData = res.data.result.items
+      })
+    }, allexport() {
+      this.$confirm('是否全部导出数据', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        window.open('/seller/eo_EasyOdr_manyexport')
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消'
+        })
       })
     }
 
