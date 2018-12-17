@@ -270,6 +270,20 @@ export const asyncRouterMap = [{
       roles: ['一级供应商']
     }
   }]
+}, {
+  path: '/newOdr',
+  component: Layout,
+  children: [{
+    path: 'index',
+    component: () =>
+      import('@/views/newOdr'),
+    name: 'newOdr',
+    meta: {
+      title: '新订单管理',
+      icon: 'icon',
+      noCache: true
+    }
+  }]
 },
 {
   path: '/icon',
