@@ -61,11 +61,11 @@ const path = require('path')
     build: {
       // Template for index.html
       // index: path.resolve(__dirname, '../dist/index.html'),
-      index: "S:\\dist\\index.html",
+      index: "D:\\Project\\Java\\2018.6\\shoestp\\src\\main\\webapp\\newseller\\index.html",
 
       // Paths
       // assetsRoot: path.resolve(__dirname, '../dist'),
-      assetsRoot: "S:\\dist",
+      assetsRoot: "D:\\Project\\Java\\2018.6\\shoestp\\src\\main\\webapp\\newseller",
       assetsSubDirectory: 'static',
 
       /**

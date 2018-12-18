@@ -13,8 +13,8 @@
             v-model="timeRange"
             :start-placeholder="$t('开始时间')"
             :end-placeholder="$t('结束时间')"
-            value-format="yyyy-MM-DD"
-            format="yyyy-MM-DD"
+            value-format="yyyy-MM-dd"
+            format="yyyy-MM-dd"
 
             style="width: 100%;"
             type="daterange"
@@ -99,7 +99,7 @@ export default {
     this.initTableData(0)
   }, methods: {
     daochu(row) {
-      window.open('/seller/eo_EasyOdr_oneexport?eastOdrId=' + row.id)
+      window.open('/seller/easy_EasyOdr_oneexport?eastOdrId=' + row.id)
     },
     initTableData(type) {
       let data = {
@@ -111,7 +111,7 @@ export default {
         data = { ...data, ...this.filterParams }
       }
       request({
-        url: '/seller/eo_EasyOdr_newOrderlist',
+        url: '/seller/easy_EasyOdr_newOrderlist',
         method: 'post',
         data: data
       }).then((res) => {
@@ -124,7 +124,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        window.open('/seller/eo_EasyOdr_manyexport')
+        window.open('/seller/easy_EasyOdr_manyexport?search.beginTime=' + this.filterParams['search.beginTime'] + '&search.endTime=' + this.filterParams['search.endTime'])
       }).catch(() => {
         this.$message({
           type: 'info',

@@ -45,7 +45,7 @@
       >
         <template slot-scope="scope">
           <a
-            :href="'/home/pdt_PdtProduct_gtProductsInfo?id='+scope.row.pkey"
+            :href="'/'+scope.row.rewrite"
             target="_blank">{{ scope.row.name }}</a>
         </template>
       </el-table-column>

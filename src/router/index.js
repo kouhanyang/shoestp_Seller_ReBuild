@@ -223,6 +223,11 @@ export const asyncRouterMap = [{
 }, {
   path: '/unionManage',
   component: Layout,
+  meta: {
+    title: '联合采购',
+    icon: 'list',
+    roles: ['一级供应商']
+  },
   children: [{
     path: 'index',
     component: () =>
@@ -230,6 +235,16 @@ export const asyncRouterMap = [{
     name: '联合采购',
     meta: {
       title: '联合采购',
+      icon: 'icon',
+      noCache: true
+    }
+  }, {
+    path: '/newOdr',
+    component: () =>
+        import('@/views/newOdr'),
+    name: 'newOdr',
+    meta: {
+      title: '新联合采购订单',
       icon: 'icon',
       noCache: true
     }
@@ -268,20 +283,6 @@ export const asyncRouterMap = [{
     meta: {
       title: '订单打印',
       roles: ['一级供应商']
-    }
-  }]
-}, {
-  path: '/newOdr',
-  component: Layout,
-  children: [{
-    path: 'index',
-    component: () =>
-      import('@/views/newOdr'),
-    name: 'newOdr',
-    meta: {
-      title: '新订单管理',
-      icon: 'icon',
-      noCache: true
     }
   }]
 },
@@ -363,21 +364,4 @@ export const asyncRouterMap = [{
     }
   }]
 }
-// , {
-//   path: '/pkStatistics',
-//   component: Layout,
-//   children: [{
-//     path: 'index',
-//     component: () =>
-//         import('@/views/PKContest/dataStatistics'),
-//     name: 'pkStatistics',
-//     meta: {
-//       title: '技能大赛数据统计',
-//       icon: 'icon',
-//       noCache: true
-//     }
-//   }
-//   ]
-// }
-
 ]

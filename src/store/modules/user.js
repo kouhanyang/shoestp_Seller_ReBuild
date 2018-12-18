@@ -63,9 +63,9 @@ const user = {
       return new Promise((resolve, reject) => {
         loginByUsername(username, userInfo.password, userInfo.captcha).then(response => {
           const data = response.data
-          if (data.ret === 1) {
-            commit('SET_TOKEN', data.token)
-            setToken(response.data.token)
+          if (data.ret == 1) {
+            commit('SET_TOKEN', data.ret)
+            setToken(data.ret)
             resolve()
           } else {
             resolve(data.msg)

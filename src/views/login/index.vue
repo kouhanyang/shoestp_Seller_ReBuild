@@ -49,7 +49,6 @@
           name="captcha"
           auto-complete="on"
           @keyup.enter.native="handleLogin"/>
-
         <img v-show="verify!=null" :src="verify" class="verifyImage" @click="getVerifyCode">
       </el-form-item>
       <el-button
@@ -140,12 +139,13 @@ export default {
           this.loading = true
           this.$store.dispatch('LoginByUsername', this.loginForm).then((res) => {
             this.loading = false
-            if (res != null && res.length > 0) {
+            if (res && res.length > 0) {
               this.$alert(res)
             } else {
               this.$router.push({ path: '/' })
             }
-          }).catch(() => {
+          }).catch((error) => {
+            this.$alert(error)
             this.loading = false
           })
         } else {

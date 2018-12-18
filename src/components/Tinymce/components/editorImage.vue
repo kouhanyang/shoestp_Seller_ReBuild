@@ -66,7 +66,6 @@ export default {
             this.listObj[objKeyArr[i]].url = response.result.url
             this.listObj[objKeyArr[i]].hasSuccess = true
           }
-          return
         }
       }
     },

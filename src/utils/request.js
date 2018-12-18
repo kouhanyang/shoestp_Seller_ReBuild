@@ -6,12 +6,13 @@ import store from '@/store'
 import {
   getToken
 } from '@/utils/auth'
+
 const Qs = require('qs')
 
 // create an axios instance
 const service = axios.create({
   //   baseURL: process.env.BASE_API, // api的base_url
-  // timeout: 5000 // request timeout
+  timeout: 5000 // request timeout
 })
 
 // request interceptor
@@ -23,8 +24,21 @@ service.interceptors.request.use(
       config.headers['X-Token'] = getToken()
     }
     if (config.method === 'post') {
-      config.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'
-      config.data = Qs.stringify(config.data)
+      if (!config.json) {
+        config.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'
+        if (!config.data) {
+          config.data = { _dc: Math.random() }
+        } else {
+          config.data['_dc'] = Math.random()
+          config.data = Qs.stringify(config.data)
+        }
+      }
+    } else {
+      if (!config.params) {
+        config.params = { _dc: Math.random() }
+      } else {
+        config.params['_dc'] = Math.random()
+      }
     }
     return config
   },
@@ -35,51 +49,73 @@ service.interceptors.request.use(
   }
 )
 
-// respone interceptor
+// // respone interceptor
+// service.interceptors.response.use(
+//   response => response,
+//   /**
+//    * 下面的注释为通过在response里，自定义code来标示请求状态
+//    * 当code返回如下情况则说明权限有问题，登出并返回到登录页
+//    * 如想通过xmlhttprequest来状态码标识 逻辑可写在下面error中
+//    * 以下代码均为样例，请结合自生需求加以修改，若不需要，则可删除
+//    */
+//   response => {
+//     const res = response.data
+//     Message({
+//       message: response.data,
+//       type: 'error',
+//       duration: 5 * 1000
+//     })
+//     if (res.indexOf('登陆') != -1) {
+//       return response
+//     }
+//     //   if (res.code !== 20000) {
+//     //     Message({
+//     //       message: res.message,
+//     //       type: 'error',
+//     //       duration: 5 * 1000
+//     //     })
+//     //     // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
+//     //     if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+//     //       // 请自行在引入 MessageBox
+//     //       // import { Message, MessageBox } from 'element-ui'
+//     //       MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
+//     //         confirmButtonText: '重新登录',
+//     //         cancelButtonText: '取消',
+//     //         type: 'warning'
+//     //       }).then(() => {
+//     //         store.dispatch('FedLogOut').then(() => {
+//     //           location.reload() // 为了重新实例化vue-router对象 避免bug
+//     //         })
+//     //       })
+//     //     }
+//     //     return Promise.reject('error')
+//     //   } else {
+//     //     return response.data
+//     //   }
+//   },
+//   error => {
+//     console.log('err' + error) // for debug
+//     Message({
+//       message: error.message,
+//       type: 'error',
+//       duration: 5 * 1000
+//     })
+//     return Promise.reject(error)
+//   }
+// )
+
 service.interceptors.response.use(
-  response => response,
-  /**
-   * 下面的注释为通过在response里，自定义code来标示请求状态
-   * 当code返回如下情况则说明权限有问题，登出并返回到登录页
-   * 如想通过xmlhttprequest来状态码标识 逻辑可写在下面error中
-   * 以下代码均为样例，请结合自生需求加以修改，若不需要，则可删除
-   */
-  // response => {
-  //   const res = response.data
-  //   if (res.code !== 20000) {
-  //     Message({
-  //       message: res.message,
-  //       type: 'error',
-  //       duration: 5 * 1000
-  //     })
-  //     // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
-  //     if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-  //       // 请自行在引入 MessageBox
-  //       // import { Message, MessageBox } from 'element-ui'
-  //       MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
-  //         confirmButtonText: '重新登录',
-  //         cancelButtonText: '取消',
-  //         type: 'warning'
-  //       }).then(() => {
-  //         store.dispatch('FedLogOut').then(() => {
-  //           location.reload() // 为了重新实例化vue-router对象 避免bug
-  //         })
-  //       })
-  //     }
-  //     return Promise.reject('error')
-  //   } else {
-  //     return response.data
-  //   }
-  // },
-  error => {
-    console.log('err' + error) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+  response => { // 成功请求到数据
+    if (typeof response.data === 'string') {
+      if (response.headers['content-type'] == 'text/html;charset=utf-8') {
+        window.location.reload()
+      }
+    }
+    return response
+  },
+  error => { // 响应错误处理
+    console.log(error)
     return Promise.reject(error)
   }
 )
-
 export default service

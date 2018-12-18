@@ -15,7 +15,13 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             align="right"/>
-          <el-button type="primary" @click="search">搜索</el-button>
+          <el-button type="success" @click="search">搜索</el-button>
+          <el-form inline>
+            <el-form-item label="Google 统计代码Id">
+              <el-input v-model="googleView"/>
+            </el-form-item>
+            <el-button type="success" @click="saveGoogleView">保存</el-button>
+          </el-form>
         </div>
         <el-row :gutter="40" class="panel-group">
           <el-col :xs="12" :sm="12" :lg="6" :offset="3" class="card-panel-col">
@@ -88,29 +94,62 @@ export default {
       times: '',
       options: '',
       timeSelect: 'exposure',
-      pkdata: null
+      pkdata: null,
+      googleView: ''
     }
   },
   mounted() {
-    request({
-      url: '/seller/activitys_Activity_getPkData',
-      method: 'get'
-    }).then(value => {
-      value = value.data
-      if (value.ret == 1) {
-        this.pkdata = value.result
-      }
-    })
+    this.getData()
   },
   methods: {
+    getData() {
+      request({
+        url: '/seller/activitys_Activity_getPkData',
+        method: 'get'
+      }).then(value => {
+        value = value.data
+        if (value.ret == 1) {
+          this.pkdata = value.result
+          this.googleView = value.result.googleViewId
+        }
+      })
+    },
+    saveGoogleView() {
+      request({
+        url: '/seller/activitys_Activity_saveGoogleViewId',
+        json: true, method: 'post', data: {
+          data: this.googleView
+        }
+      })
+    },
     timeSelectChange(val) {
       console.log(val)
       // this.$emit('timeChange', val)
     },
     search() {
-      console.log(this.times)
+      if (this.times && this.times.length == 2) {
+        request({
+          url: '/seller/activitys_Activity_getPkData',
+          params: {
+            startDate: this.times[0],
+            endDate: this.times[1]
+          },
+          method: 'get'
+        }).then(value => {
+          value = value.data
+          if (value.ret == 1) {
+            this.pkdata = value.result
+            this.googleView = value.result.googleViewId
+          }
+        })
+      } else {
+        this.getData()
+      }
     },
     handleSetLineChartData(val) {
+      if (val == 'inquiryVolume') {
+        this.$router.push('/newInq/index')
+      }
       console.log(val)
     }
   }
