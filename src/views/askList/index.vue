@@ -452,6 +452,10 @@ export default {
     padding: 25px;
     width: 64%;
     margin-left: 2%;
+    .mainn{
+      padding: 25px;
+      width: 64%;
+      margin-left: 2%;
   }
 
 </style>
