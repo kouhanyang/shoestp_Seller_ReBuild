@@ -448,5 +448,10 @@ export default {
     width: 64%;
     margin-left: 2%;
   }
+  .mainnn {
+    padding: 25px;
+    width: 64%;
+    margin-left: 2%;
+  }
 
 </style>
