@@ -443,5 +443,9 @@ export default {
     padding-top: 0;
     padding-bottom: 60px;
   }
+  /dee/ .el-dialog .el-dialog__footer {
+    padding-top: 0;
+    padding-bottom: 60px;
+  }
 
 </style>
