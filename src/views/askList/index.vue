@@ -462,5 +462,9 @@ export default {
       width: 64%;
       margin-left: 2%;
     }
+    /deep/ .el-dialog .el-dialog__footer {
+      padding-top: 0;
+      padding-bottom: 60px;
+    }
 
 </style>
