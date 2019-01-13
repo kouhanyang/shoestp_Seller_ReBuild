@@ -443,5 +443,10 @@ export default {
     padding-top: 0;
     padding-bottom: 60px;
   }
+  .mainnnn {
+    padding: 25px;
+    width: 64%;
+    margin-left: 2%;
+  }
 
 </style>
